@@ -1,4 +1,4 @@
-/**
+     /**
  * การโอนเงินระหว่างสองบัญชี — ไฟล์ที่นิสิตต้องแก้ (ส่วนที่ 2)
  *
  * การโอนต้องล็อกสองใบพร้อมกัน เพราะระหว่างที่หักจากบัญชีต้นทาง
@@ -45,8 +45,15 @@ public class Bank {
         //
         // ห้ามแก้ด้วยการเอาล็อกใบใดใบหนึ่งออก — ยอดรวมจะเพี้ยน
         // ---------------------------------------------------------------
-        synchronized (from) {
-            synchronized (to) {
+        Account first = from;
+        Account second = to;
+        if(from.id()>to.id()){
+            first = to;
+            second = from;
+        }
+
+        synchronized (first) {
+            synchronized (second) {
                 if (!from.withdraw(amount)) {
                     return false;
                 }
